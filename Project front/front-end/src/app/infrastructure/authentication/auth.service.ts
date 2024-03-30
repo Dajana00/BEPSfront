@@ -65,4 +65,11 @@ export class AuthService {
   getUserId(): number {
     return this.userClaims.id;
   }
+
+  
+  loginN(id: number): Observable<string> {
+    console.log('u servisu')
+    return this.http
+      .get<string>('http://localhost:8080/api/authentication/loginN');
+  }
 }

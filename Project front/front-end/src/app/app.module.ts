@@ -14,13 +14,15 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './infrastructure/interceptor/TokenInterceptor';
 import { DateAdapter } from '@angular/material/core';
+import { ProbaComponent } from './layout/proba/proba.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    ProbaComponent
   ],
   imports: [
     BrowserModule,
