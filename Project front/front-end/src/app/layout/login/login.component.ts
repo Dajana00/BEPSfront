@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
+import { AuthService } from '../../infrastructure/authentication/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +26,7 @@ export class LoginComponent {
     this.authService.login(user).subscribe( {
       next:(res)=>{
           console.log('successfull',res)
+          this.router.navigate(['home'])
       },
       error:(err)=>{
         console.log('greska',err)
