@@ -14,13 +14,23 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './infrastructure/interceptor/TokenInterceptor';
 import { DateAdapter } from '@angular/material/core';
-
+import { ProbaComponent } from './layout/proba/proba.component';
+import { HomeComponent } from './features/home/home.component';
+import {  CreateCertificateComponent } from './features/create-certificate/create-certificate.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    ProbaComponent,
+    HomeComponent,
+    CreateCertificateComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -34,7 +44,11 @@ import { DateAdapter } from '@angular/material/core';
         tokenGetter: () => localStorage.getItem('token'),
       },
     }),
-
+    MatSelectModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    BrowserAnimationsModule
+   
   
     
   ],
