@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { User } from 'src/app/model/user.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +26,7 @@ export class AuthService {
   login(loginRequest: Credential): Observable<boolean> {
     console.log('u servisu',loginRequest)
     return this.http
-      .post<any>('http://localhost:8080/api/authentication/login', loginRequest)
+      .post<any>('http://localhost:8081/api/authentication/login', loginRequest)
       .pipe(
         map((res) => {
           console.log('Login success');

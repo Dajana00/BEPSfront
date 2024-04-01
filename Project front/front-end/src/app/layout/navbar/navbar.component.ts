@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
+import { AuthService } from '../../infrastructure/authentication/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/infrastructure/authentication/auth.service'
 })
 export class NavbarComponent implements OnInit{
   isLogged : boolean=false
+  userRole: string = '';
   constructor(
     private router: Router,
     private authService: AuthService 
@@ -16,9 +17,14 @@ export class NavbarComponent implements OnInit{
     this.authService.loginObserver.subscribe((val) => {
       this.isLogged = val;
       
-      if (this.isLogged) {
+      
+        if (this.isLogged) {
+          this.userRole = this.authService.getUserRole()
+
+        }
+      
         
-      }
+      
     });
 
     
@@ -26,10 +32,14 @@ export class NavbarComponent implements OnInit{
   ngOnInit(): void {
     this.authService.loginObserver.subscribe((val) => {
       this.isLogged = val;
+      console.log('isLogged', this.isLogged)
       
      
     });
 
     
+  }
+  onLogout() {
+    this.authService.logout();
   }
 }
