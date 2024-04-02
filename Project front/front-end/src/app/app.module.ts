@@ -21,6 +21,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShowCertificateComponent } from './features/show-certificate/show-certificate.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     ProbaComponent,
     HomeComponent,
-    CreateCertificateComponent
+    CreateCertificateComponent,
+    ShowCertificateComponent
     
   ],
   imports: [
@@ -47,8 +50,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    BrowserAnimationsModule
-   
+    BrowserAnimationsModule,
+   MatTableModule
   
     
   ],
