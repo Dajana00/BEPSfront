@@ -43,7 +43,7 @@ form {
   padding: 40px; /* Povećaj razmak između ivica i unutrašnjosti forme */
   border: 2px solid #39a38f; /* Okvir forme sa zelenom bojom */
   border-radius: 15px; /* Zaobljeni ivici forme */
-  background-color: #E0F7FA; /* Boja pozadine forme */
+  background-color: white; /* Boja pozadine forme */
 }
 
 /* Stilizacija za input polja */

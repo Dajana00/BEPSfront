@@ -1,22 +1,4 @@
 <form  (ngSubmit)="submitForm()" [formGroup]="appForm">
- 
-   
-        <div class="form-group">
-            <label for="inWhooseName">In whose name</label>
-            <select class="form-control" id="inWhooseName" formControlName="inWhoseName" (change)="onChange()">
-                <option value="SomeoneElseName">In someone else's name</option>
-                <option value="MyName">In my name</option>
-            </select>
-        </div>
-  
-        <div class="form-group"   [formGroup]="myGroup" *ngIf="appForm.get('inWhoseName')?.value === 'SomeoneElseName'">
-            <label for="issuer">Choose issuer:</label>
-            <select class="form-control" id="issuer" formControlName="selectedIssuer" (change)="onIssuerChange($event)">
-                <option value="" disabled selected>Choose an issuer</option>
-                <option *ngFor="let issuer of issuers" [value]="issuer.issuerUsername">{{ issuer.issuerUsername }}</option>
-            </select>
-        </div>
-    
     
     <div class="form-group">
         <label for="certificateType">Certificate type</label>
@@ -52,11 +34,11 @@
    
     <div class="form-group">
         <label for="startDate">Start Date</label>
-        <input type="date" class="form-control" id="startDate" formControlName="startDate" name="startDate" (change)="onChangeStartDate()"  >
+        <input type="date" class="form-control" id="startDate" formControlName="startDate" name="startDate" (change)="onChangeStartDate()" >
     </div>
     <div class="form-group">
         <label for="endDate">End Date</label>
-        <input type="date" class="form-control" id="endDate" formControlName="endDate" name="endDate" [min]="minEndDate" >
+        <input type="date" class="form-control" id="endDate" formControlName="endDate" name="endDate" >
     </div>
     
     <button type="submit" class="btn btn-primary">Submit</button>

@@ -23,14 +23,18 @@ export class CreateCertificateComponent implements OnInit {
     endDate: new Date,
   
   }
-
+  minEndDate: string ='';
+  minStartDate: string = '';
   loggedInUsername!: string;
 
   constructor(private service:CertificateServiceService,private authService: AuthService){}
 
   ngOnInit(): void {
-    this.loggedInUsername = this.authService.getUsername()
-  }
+    this.service.getUserById(this.authService.getUserId()).subscribe({
+      next:(response)=>{
+        this.loggedInUsername = response.username;
+      }
+    })  }
 
   appForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
@@ -39,7 +43,8 @@ export class CreateCertificateComponent implements OnInit {
     endDate: new FormControl('', [Validators.required]),
   })
   submitForm(){
-    this.certificate.username = 'daks';
+
+    this.certificate.username = this.loggedInUsername;
     if(this.appForm.value.startDate != null){
     this.certificate.startDate=new Date (this.appForm.value.startDate)
     }
@@ -60,4 +65,16 @@ export class CreateCertificateComponent implements OnInit {
     })
   }
  
+  onChangeStartDate(): void {
+    const startDateValue = this.appForm.value.startDate;
+    if (startDateValue !== null && startDateValue !== undefined) {
+      const startDate = new Date(startDateValue);
+      // Sada možete koristiti startDate kao Date objekat
+      const minEndDate = new Date(startDate);
+      minEndDate.setDate(minEndDate.getDate() + 1); // Postavljamo minimalni End Date na sledeći dan od Start Date-a
+      this.minEndDate = minEndDate.toISOString().split('T')[0];
+    } else {
+        // Handle the case where startDate is null or undefined
+    }
+  }
 }
