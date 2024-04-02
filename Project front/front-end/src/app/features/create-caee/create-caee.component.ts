@@ -18,7 +18,8 @@ export class CreateCAEEComponent implements OnInit{
     subjectCountry: '',
     subjectEmail: '',
     startDate: new Date(),
-    endDate: new Date()
+    endDate: new Date(),
+    newPKIssuerPassword: ''
   }
   constructor(private service:CertificateServiceService){}
   ngOnInit(): void {
@@ -30,6 +31,7 @@ export class CreateCAEEComponent implements OnInit{
     subjectOrganizationUnit: new FormControl('', [Validators.required]),
     subjectCountry: new FormControl('', [Validators.required]),
     subjectEmail: new FormControl('', [Validators.required]),
+    newPKIssuerPassword: new FormControl('', [Validators.required]),
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
   })
@@ -49,6 +51,9 @@ export class CreateCAEEComponent implements OnInit{
 
     if(this.appForm.value.subjectEmail != null)
     this.certificate.subjectEmail = this.appForm.value.subjectEmail;
+
+    if(this.appForm.value.newPKIssuerPassword != null)
+    this.certificate.newPKIssuerPassword = this.appForm.value.newPKIssuerPassword;
 
     if(this.appForm.value.startDate != null){
     this.certificate.startDate=new Date (this.appForm.value.startDate)

@@ -5,6 +5,7 @@ export interface CAEE {
     subjectOrganizationUnit: string;
     subjectCountry: string;
     subjectEmail: string;
+    newPKIssuerPassword:string;
     startDate: Date;
     endDate: Date;
   }
