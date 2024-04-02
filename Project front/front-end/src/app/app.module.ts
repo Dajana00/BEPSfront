@@ -20,9 +20,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { CreateCAEEComponent } from './features/create-caee/create-caee.component';
 import { FormsModule } from '@angular/forms';
 import { CreateByCaComponent } from './features/creatingByCA/create-by-ca/create-by-ca.component';
+
+
+import { ShowCertificateComponent } from './features/show-certificate/show-certificate.component';
+import { MatTableModule } from '@angular/material/table';
 
 
 @NgModule({
@@ -33,7 +38,11 @@ import { CreateByCaComponent } from './features/creatingByCA/create-by-ca/create
     HomeComponent,
     CreateCertificateComponent,
     CreateCAEEComponent,
-    CreateByCaComponent
+    CreateByCaComponent,
+
+
+    ShowCertificateComponent
+
     
   ],
   imports: [
@@ -52,8 +61,8 @@ import { CreateByCaComponent } from './features/creatingByCA/create-by-ca/create
     MatSelectModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    BrowserAnimationsModule
-   
+    BrowserAnimationsModule,
+   MatTableModule
   
     
   ],
