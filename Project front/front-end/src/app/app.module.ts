@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CreateCAEEComponent } from './features/create-caee/create-caee.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     ProbaComponent,
     HomeComponent,
-    CreateCertificateComponent
+    CreateCertificateComponent,
+    CreateCAEEComponent
     
   ],
   imports: [
