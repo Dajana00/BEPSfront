@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Certificate } from '../model/certificate.model';
+import {CertificateDB } from '../model/certificate.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SelfSigned } from '../model/self-signed.model';
 import { CAEE } from '../model/caee.model';
@@ -56,5 +56,14 @@ export class CertificateServiceService {
     });
     console.log("ID: ",id)
     return this.http.get<User>('http://localhost:8081/api/users/getById/' +id,{headers});
+  }
+
+  getAllCertificates(): Observable<CertificateDB[]> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    return this.http.get<CertificateDB[]>('http://localhost:8081/api/certificates/getAllCertificates' ,{headers});
   }
 }

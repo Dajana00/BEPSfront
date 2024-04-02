@@ -1,3 +1,6 @@
-export interface Certificate {
-    
+export interface CertificateDB {
+    id:number;
+    issuerUsername:string;
+    subjectUsername:string;
+    type:string;
 }

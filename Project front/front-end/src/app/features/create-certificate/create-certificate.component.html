@@ -65,7 +65,7 @@
     </div>
     <div class="form-group">
         <label for="endDate">End Date</label>
-        <input type="date" class="form-control" id="endDate" formControlName="endDate" name="endDate" >
+        <input type="date" class="form-control" id="endDate" formControlName="endDate" name="endDate"  [min]="minEndDate" >
     </div>
     
     <button type="submit" class="btn btn-primary">Submit</button>

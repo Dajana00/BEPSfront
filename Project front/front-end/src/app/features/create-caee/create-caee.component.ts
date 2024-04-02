@@ -5,6 +5,8 @@ import { CertificateServiceService } from '../certificate-service.service';
 import { IssuerData } from 'src/app/model/issuer-data.model';
 import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
 import { User } from 'src/app/model/user.model';
+import {  CertificateDB } from 'src/app/model/certificate.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-caee',
@@ -35,13 +37,13 @@ export class CreateCAEEComponent implements OnInit{
   }
   myGroup!: FormGroup;
   loggedUserId: number=0;
-  issuers:IssuerData[]=[]
+  issuers:CertificateDB[]=[]
   certificateType:string='';
   issuerUsername:string = ''
   minEndDate: string ='';
   minStartDate: string = '';
 
-  constructor(private service:CertificateServiceService,private formBuilder: FormBuilder,private authService:AuthService){}
+  constructor(private service:CertificateServiceService,private formBuilder: FormBuilder,private authService:AuthService,private router:Router){}
   ngOnInit(): void {
     this.inWhoseName = 'MyName';
     this.myGroup = this.formBuilder.group({
@@ -54,6 +56,12 @@ export class CreateCAEEComponent implements OnInit{
         this.loggedUser = response;
       }
     })
+    this.service.getAllCertificates().subscribe({
+      next:(response)=>{
+        this.issuers = response;
+      }
+    })
+    
  
   }
 
@@ -76,10 +84,13 @@ export class CreateCAEEComponent implements OnInit{
 
     if(this.certificateType == 'Intermediary'){
       this.createIntermediaryCertificate();
+      alert('Successifuly created intermediary sertificate!');
     }else{
       this.createEndEntityCertificate();
+      alert('Successifuly created end entity sertificate!');
+
     }
-    
+    this.router.navigate(['home']);
   }
 
 
@@ -161,7 +172,6 @@ export class CreateCAEEComponent implements OnInit{
       minEndDate.setDate(minEndDate.getDate() + 1); // Postavljamo minimalni End Date na sledeći dan od Start Date-a
       this.minEndDate = minEndDate.toISOString().split('T')[0];
     } else {
-        // Handle the case where startDate is null or undefined
     }
   }
 }

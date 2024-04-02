@@ -13,7 +13,7 @@
             <label for="issuer">Choose issuer:</label>
             <select class="form-control" id="issuer" formControlName="selectedIssuer" (change)="onIssuerChange($event)">
                 <option value="" disabled selected>Choose an issuer</option>
-                <option *ngFor="let issuer of issuers" [value]="issuer.issuerUsername">{{ issuer.issuerUsername }}</option>
+                <option *ngFor="let issuer of issuers" [value]="issuer.issuerUsername">{{ issuer.issuerUsername }} ,type: {{issuer.type}}</option>
             </select>
         </div>
     

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CertificateServiceService } from '../certificate-service.service';
-import { Certificate } from 'src/app/model/certificate.model';
+import { CertificateDB } from 'src/app/model/certificate.model';
 import { User } from 'src/app/model/user.model';
 import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
 import { SelfSigned } from 'src/app/model/self-signed.model';
 import { DataSource } from '@angular/cdk/collections';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-certificate',
@@ -27,7 +28,7 @@ export class CreateCertificateComponent implements OnInit {
   minStartDate: string = '';
   loggedInUsername!: string;
 
-  constructor(private service:CertificateServiceService,private authService: AuthService){}
+  constructor(private service:CertificateServiceService,private authService: AuthService,private router:Router){}
 
   ngOnInit(): void {
     this.service.getUserById(this.authService.getUserId()).subscribe({
@@ -57,7 +58,7 @@ export class CreateCertificateComponent implements OnInit {
     this.certificate.newKeyStorePassword = this.appForm.value.password2;
     this.service.createRootSertificate(this.certificate).subscribe({
       next:(response)=>{
-        
+        this.router.navigate(['home']);
       },
       error:(err)=>{
         console.log('greska',err)
