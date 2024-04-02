@@ -28,6 +28,16 @@
       >
       Create Certificate
       </a>
+
+      <a
+        raised-button
+        *ngIf="isLogged "
+        routerLinkActive="active"
+        [routerLink]="['createCAEE']"
+        class="link"
+      >
+      Create CAEE
+      </a>
       <button
         *ngIf="isLogged && userRole != 'ROLE_REGISTERED_USER'"
         class="nbuttonEnd"

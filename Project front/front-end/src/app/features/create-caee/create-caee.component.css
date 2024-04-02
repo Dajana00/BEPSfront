@@ -1,0 +1,78 @@
+/* Stilizacija za formu */
+form {
+    max-width: 400px; /* Maksimalna širina forme */
+    margin: auto; /* Centriranje forme */
+    padding: 20px; /* Razmak između ivica i unutrašnjosti forme */
+    border: 2px solid #39a38f; /* Okvir forme sa zelenom bojom */
+    border-radius: 10px; /* Zaobljeni ivici forme */
+  }
+  
+  /* Stilizacija za input polja */
+  .form-control {
+    width: 100%; /* Širina input polja */
+    padding: 10px; /* Razmak između teksta i ivice input polja */
+    margin-bottom: 10px; /* Razmak između input polja */
+    border: 1px solid #39a38f; /* Okvir input polja sa zelenom bojom */
+    border-radius: 5px; /* Zaobljeni ivici input polja */
+  }
+  
+  /* Stilizacija za label */
+  label {
+    font-weight: bold; /* Debljina teksta */
+    margin-bottom: 5px; /* Razmak između labela i input polja */
+  }
+  
+  /* Stilizacija za submit dugme */
+  .btn-primary {
+    background-color: #39a38f; /* Pozadinska boja dugmeta */
+    color: white; /* Boja teksta na dugmetu */
+    padding: 10px 20px; /* Veličina dugmeta */
+    border: none; /* Bez ivice */
+    border-radius: 5px; /* Zaobljeni ivici dugmeta */
+    cursor: pointer; /* Pokazivač */
+  }
+  
+  /* Stilizacija za hover efekat na submit dugme */
+  .btn-primary:hover {
+    background-color: #39a38f; /* Tamnija nijansa zelene boje */
+  }
+  /* Stilizacija za formu */
+  form {
+    max-width: 600px; /* Povećaj maksimalnu širinu forme */
+    margin: auto; /* Centriranje forme */
+    padding: 40px; /* Povećaj razmak između ivica i unutrašnjosti forme */
+    border: 2px solid #39a38f; /* Okvir forme sa zelenom bojom */
+    border-radius: 15px; /* Zaobljeni ivici forme */
+    background-color: #E0F7FA; /* Boja pozadine forme */
+  }
+  
+  /* Stilizacija za input polja */
+  .form-control {
+    width: 100%; /* Širina input polja */
+    padding: 15px; /* Povećaj razmak između teksta i ivice input polja */
+    margin-bottom: 15px; /* Povećaj razmak između input polja */
+    border: 2px solid #39a38f; /* Okvir input polja sa zelenom bojom */
+    border-radius: 10px; /* Zaobljeni ivici input polja */
+  }
+  
+  /* Stilizacija za label */
+  label {
+    font-weight: bold; /* Debljina teksta */
+    margin-bottom: 10px; /* Povećaj razmak između labela i input polja */
+  }
+  
+  /* Stilizacija za submit dugme */
+  .btn-primary {
+    background-color: #39a38f; /* Pozadinska boja dugmeta (plava) */
+    color: white; /* Boja teksta na dugmetu */
+    padding: 15px 30px; /* Veličina dugmeta */
+    border: none; /* Bez ivice */
+    border-radius: 10px; /* Zaobljeni ivici dugmeta */
+    cursor: pointer; /* Pokazivač */
+  }
+  
+  /* Stilizacija za hover efekat na submit dugme */
+  .btn-primary:hover {
+    background-color: #39a38f; /* Tamnija nijansa plave boje */
+  }
+  

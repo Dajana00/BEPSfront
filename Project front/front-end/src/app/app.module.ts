@@ -21,8 +21,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CreateCAEEComponent } from './features/create-caee/create-caee.component';
+
 import { ShowCertificateComponent } from './features/show-certificate/show-certificate.component';
 import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +36,11 @@ import { MatTableModule } from '@angular/material/table';
     ProbaComponent,
     HomeComponent,
     CreateCertificateComponent,
+
+    CreateCAEEComponent
+
     ShowCertificateComponent
+
     
   ],
   imports: [

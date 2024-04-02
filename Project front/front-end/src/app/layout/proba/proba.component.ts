@@ -12,14 +12,7 @@ export class ProbaComponent implements OnInit{
   constructor(private authService:AuthService,private router:Router){}
 
   ngOnInit(): void {
-    this.authService.loginN(3).subscribe({
-      next:(res)=>{
-        console.log('successfull',res)
-    },
-    error:(err)=>{
-      console.log('greska',err)
-    }
-    })
+   
   }
 
 

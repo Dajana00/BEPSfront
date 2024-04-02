@@ -9,6 +9,7 @@ export class AuthService {
 
   private access_token = null;
   userClaims: any = null;
+  
 
   private loginSource = new BehaviorSubject<boolean>(false);
   public loginObserver = this.loginSource.asObservable();
@@ -33,6 +34,8 @@ export class AuthService {
           console.log(res);
           localStorage.setItem('token', res.token);
           this.userClaims = this.jwtHelper.decodeToken();
+          console.log('userclaims',this.userClaims)
+          this.getUserId()
           this.access_token = res.token;
           this.loginSource.next(true);
           return true;
@@ -62,13 +65,14 @@ export class AuthService {
   }
 
   getUserId(): number {
+    console.log('id',this.userClaims.id)
     return this.userClaims.id;
   }
 
-  
-  loginN(id: number): Observable<string> {
-    console.log('u servisu')
-    return this.http
-      .get<string>('http://localhost:8080/api/authentication/loginN');
+  getUsername(): string {
+    console.log("ooooo",this.userClaims.username);
+    return this.userClaims.username;
+    
   }
+
 }
