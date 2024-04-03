@@ -24,8 +24,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CreateCAEEComponent } from './features/create-caee/create-caee.component';
 
-import { ShowCertificateComponent } from './features/show-certificate/show-certificate.component';
+import { ShowCertificateComponent } from './features/showCertificate/show-certificate/show-certificate.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CertificateDetailsComponent } from './features/showCertificate/certificate-details/certificate-details.component';
+import { MatTabsModule } from '@angular/material/tabs';
+
 
 
 @NgModule({
@@ -37,12 +41,14 @@ import { MatTableModule } from '@angular/material/table';
     HomeComponent,
     CreateCertificateComponent,
 
-    CreateCAEEComponent
+    CreateCAEEComponent,
 
-    ShowCertificateComponent
+    ShowCertificateComponent,
+      CertificateDetailsComponent
 
     
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -59,7 +65,9 @@ import { MatTableModule } from '@angular/material/table';
     MatNativeDateModule,
     MatDatepickerModule,
     BrowserAnimationsModule,
-   MatTableModule
+   MatTableModule,
+   MatDialogModule,
+   MatTabsModule
   
     
   ],

@@ -7,7 +7,7 @@ import { CreateCertificateComponent } from './features/create-certificate/create
 
 import { CreateCAEEComponent } from './features/create-caee/create-caee.component';
 
-import { ShowCertificateComponent } from './features/show-certificate/show-certificate.component';
+import { ShowCertificateComponent } from './features/showCertificate/show-certificate/show-certificate.component';
 
 
 const routes: Routes = [ 
