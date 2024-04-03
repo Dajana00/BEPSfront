@@ -48,6 +48,18 @@
       >
       Create CA or EE Certificate
       </a>
+      <a
+      raised-button
+      *ngIf="isLogged "
+      routerLinkActive="active"
+      [routerLink]="['showCertificate']"
+      class="link"
+    >
+    Certificates
+    </a>
+
+
+
       <button
         *ngIf="isLogged && userRole != 'ROLE_REGISTERED_USER'"
         class="nbuttonEnd"
