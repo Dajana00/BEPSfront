@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CAEE } from 'src/app/model/caee.model';
-import { CertificateServiceService } from '../certificate-service.service';
 import { IssuerData } from 'src/app/model/issuer-data.model';
-import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
 import { User } from 'src/app/model/user.model';
-import {  CertificateDB } from 'src/app/model/certificate.model';
-import { Router } from '@angular/router';
+import { CertificateServiceService } from '../../certificate-service.service';
+import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
 
 @Component({
-  selector: 'app-create-caee',
-  templateUrl: './create-caee.component.html',
-  styleUrls: ['./create-caee.component.css']
+  selector: 'app-create-by-ca',
+  templateUrl: './create-by-ca.component.html',
+  styleUrls: ['./create-by-ca.component.css']
 })
-export class CreateCAEEComponent implements OnInit{
+export class CreateByCaComponent {
+
 
   certificate:CAEE={
     issuerUsername: '',
@@ -26,8 +25,6 @@ export class CreateCAEEComponent implements OnInit{
     endDate: new Date(),
     newPKIssuerPassword: ''
   }
-  inWhoseName:string ='';
-  selectedIssuerUsername : string = ''
   loggedUser: User = {
     id: 0,
     password: '',
@@ -37,36 +34,23 @@ export class CreateCAEEComponent implements OnInit{
   }
   myGroup!: FormGroup;
   loggedUserId: number=0;
-  issuers:CertificateDB[]=[]
   certificateType:string='';
   issuerUsername:string = ''
   minEndDate: string ='';
   minStartDate: string = '';
 
-  constructor(private service:CertificateServiceService,private formBuilder: FormBuilder,private authService:AuthService,private router:Router){}
+  constructor(private service:CertificateServiceService,private formBuilder: FormBuilder,private authService:AuthService){}
   ngOnInit(): void {
-    this.inWhoseName = 'MyName';
-    this.myGroup = this.formBuilder.group({
-      inWhoseName: '',
-      selectedIssuer: ''
-    });
-    //this.loggedUserId = this.authService.getUserId();
+    
     this.service.getUserById(this.authService.getUserId()).subscribe({
       next:(response)=>{
         this.loggedUser = response;
       }
     })
-    this.service.getAllCertificates().subscribe({
-      next:(response)=>{
-        this.issuers = response;
-      }
-    })
-    
- 
+
   }
 
   appForm = new FormGroup({
-    inWhoseName: new FormControl('', [Validators.required]),
     certificateType: new FormControl('', [Validators.required]),
     subjectUsername: new FormControl('', [Validators.required]),
     subjectOrganization: new FormControl('', [Validators.required]),
@@ -77,20 +61,16 @@ export class CreateCAEEComponent implements OnInit{
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
   })
-
   submitForm(){
     
     this.arrangeData();
 
-    if(this.certificateType == 'Intermediary'){
+    if(this.certificateType== 'Intermediary'){
       this.createIntermediaryCertificate();
-      alert('Successifuly created intermediary sertificate!');
     }else{
       this.createEndEntityCertificate();
-      alert('Successifuly created end entity sertificate!');
-
     }
-    this.router.navigate(['home']);
+    
   }
 
 
@@ -113,13 +93,9 @@ export class CreateCAEEComponent implements OnInit{
     })
   }
   arrangeData(){
-    if(this.inWhoseName == 'MyName'){
-      console.log("U cije ime radimo: ",this.inWhoseName);
-      this.certificate.issuerUsername = this.loggedUser.username; 
-    }else{
-      this.certificate.issuerUsername = this.selectedIssuerUsername;
-    }
-    
+
+    this.certificate.issuerUsername = this.loggedUser.username; 
+   
     if(this.appForm.value.subjectUsername != null)
     this.certificate.subjectUsername = this.appForm.value.subjectUsername;
 
@@ -145,24 +121,14 @@ export class CreateCAEEComponent implements OnInit{
       this.certificate.endDate=new Date (this.appForm.value.endDate)
     }
   }
-  onIssuerChange(event:any): void {
-    this.selectedIssuerUsername = event.target.value
-    console.log("Novi issuer: ",this.selectedIssuerUsername);
-  }
-
-  onChange(): void {
-
-    if(this.appForm.value.inWhoseName )
-    this.inWhoseName = this.appForm.value.inWhoseName;
-    console.log(this.inWhoseName);
-  }
-
+ 
   onChangeCertificateType():void{
     if(this.appForm.value.certificateType)
     this.certificateType = this.appForm.value.certificateType;
     console.log(this.certificateType);
   }
 
+  
   onChangeStartDate(): void {
     const startDateValue = this.appForm.value.startDate;
     if (startDateValue !== null && startDateValue !== undefined) {
@@ -172,6 +138,7 @@ export class CreateCAEEComponent implements OnInit{
       minEndDate.setDate(minEndDate.getDate() + 1); // Postavljamo minimalni End Date na sledeći dan od Start Date-a
       this.minEndDate = minEndDate.toISOString().split('T')[0];
     } else {
+        // Handle the case where startDate is null or undefined
     }
   }
 }

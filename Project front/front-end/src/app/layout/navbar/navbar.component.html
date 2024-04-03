@@ -38,6 +38,16 @@
       >
       Create CAEE
       </a>
+
+      <a
+        raised-button
+        *ngIf="isLogged  && userRole === 'ICA'"
+        routerLinkActive="active"
+        [routerLink]="['createCAEEbyCA']"
+        class="link"
+      >
+      Create CAEE
+      </a>
       <button
         *ngIf="isLogged && userRole != 'ROLE_REGISTERED_USER'"
         class="nbuttonEnd"

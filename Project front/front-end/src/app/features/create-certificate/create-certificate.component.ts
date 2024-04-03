@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CertificateServiceService } from '../certificate-service.service';
-import { Certificate } from 'src/app/model/certificate.model';
+import { CertificateDB } from 'src/app/model/certificate.model';
 import { User } from 'src/app/model/user.model';
 import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
 import { SelfSigned } from 'src/app/model/self-signed.model';
 import { DataSource } from '@angular/cdk/collections';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-certificate',
@@ -23,14 +24,18 @@ export class CreateCertificateComponent implements OnInit {
     endDate: new Date,
   
   }
-
+  minEndDate: string ='';
+  minStartDate: string = '';
   loggedInUsername!: string;
 
-  constructor(private service:CertificateServiceService,private authService: AuthService){}
+  constructor(private service:CertificateServiceService,private authService: AuthService,private router:Router){}
 
   ngOnInit(): void {
-    this.loggedInUsername = this.authService.getUsername()
-  }
+    this.service.getUserById(this.authService.getUserId()).subscribe({
+      next:(response)=>{
+        this.loggedInUsername = response.username;
+      }
+    })  }
 
   appForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
@@ -39,7 +44,8 @@ export class CreateCertificateComponent implements OnInit {
     endDate: new FormControl('', [Validators.required]),
   })
   submitForm(){
-    this.certificate.username = 'daks';
+
+    this.certificate.username = this.loggedInUsername;
     if(this.appForm.value.startDate != null){
     this.certificate.startDate=new Date (this.appForm.value.startDate)
     }
@@ -52,7 +58,7 @@ export class CreateCertificateComponent implements OnInit {
     this.certificate.newKeyStorePassword = this.appForm.value.password2;
     this.service.createRootSertificate(this.certificate).subscribe({
       next:(response)=>{
-        
+        this.router.navigate(['home']);
       },
       error:(err)=>{
         console.log('greska',err)
@@ -60,4 +66,16 @@ export class CreateCertificateComponent implements OnInit {
     })
   }
  
+  onChangeStartDate(): void {
+    const startDateValue = this.appForm.value.startDate;
+    if (startDateValue !== null && startDateValue !== undefined) {
+      const startDate = new Date(startDateValue);
+      // Sada možete koristiti startDate kao Date objekat
+      const minEndDate = new Date(startDate);
+      minEndDate.setDate(minEndDate.getDate() + 1); // Postavljamo minimalni End Date na sledeći dan od Start Date-a
+      this.minEndDate = minEndDate.toISOString().split('T')[0];
+    } else {
+        // Handle the case where startDate is null or undefined
+    }
+  }
 }

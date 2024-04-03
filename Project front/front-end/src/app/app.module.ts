@@ -14,7 +14,6 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './infrastructure/interceptor/TokenInterceptor';
 import { DateAdapter } from '@angular/material/core';
-import { ProbaComponent } from './layout/proba/proba.component';
 import { HomeComponent } from './features/home/home.component';
 import {  CreateCertificateComponent } from './features/create-certificate/create-certificate.component';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,6 +22,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CreateCAEEComponent } from './features/create-caee/create-caee.component';
+import { FormsModule } from '@angular/forms';
+import { CreateByCaComponent } from './features/creatingByCA/create-by-ca/create-by-ca.component';
+
 
 import { ShowCertificateComponent } from './features/showCertificate/show-certificate/show-certificate.component';
 import { MatTableModule } from '@angular/material/table';
@@ -37,12 +39,10 @@ import { MatTabsModule } from '@angular/material/tabs';
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    ProbaComponent,
     HomeComponent,
     CreateCertificateComponent,
-
     CreateCAEEComponent,
-
+    CreateByCaComponent,
     ShowCertificateComponent,
       CertificateDetailsComponent
 
@@ -56,6 +56,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatFormFieldModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),
