@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/infrastructure/authentication/auth.service'
 import { User } from 'src/app/model/user.model';
 import {  CertificateDB } from 'src/app/model/certificate.model';
 import { Router } from '@angular/router';
+import { SubjectData } from 'src/app/model/subject-data.model';
+import { max } from 'rxjs';
 
 @Component({
   selector: 'app-create-caee',
@@ -24,7 +26,8 @@ export class CreateCAEEComponent implements OnInit{
     subjectEmail: '',
     startDate: new Date(),
     endDate: new Date(),
-    newPKIssuerPassword: ''
+    newPKIssuerPassword: '',
+    newKeyStorePassword: ''
   }
   inWhoseName:string ='';
   selectedIssuerUsername : string = ''
@@ -43,6 +46,23 @@ export class CreateCAEEComponent implements OnInit{
   minEndDate: string ='';
   minStartDate: string = '';
 
+  maxStartDate : string='';
+  maxEndDate: string='';
+  subjectData: SubjectData={
+    endDate: new Date(),
+    id: 0,
+    startDate: new Date(),
+    encodedkspassword: '',
+    keyStore: '',
+    serialNumber: '',
+    subjectUsername: ''
+  }
+  existance: boolean=false;
+  correctPassword :string='';
+  icaKSPassword:string='';
+  eeKSPassword:string='';
+
+
   constructor(private service:CertificateServiceService,private formBuilder: FormBuilder,private authService:AuthService,private router:Router){}
   ngOnInit(): void {
     this.inWhoseName = 'MyName';
@@ -50,19 +70,17 @@ export class CreateCAEEComponent implements OnInit{
       inWhoseName: '',
       selectedIssuer: ''
     });
-    //this.loggedUserId = this.authService.getUserId();
     this.service.getUserById(this.authService.getUserId()).subscribe({
       next:(response)=>{
         this.loggedUser = response;
-      }
-    })
-    this.service.getAllCertificates().subscribe({
-      next:(response)=>{
-        this.issuers = response;
+        this.service.getAllCertificates().subscribe({
+          next:(response)=>{
+            this.issuers = response.filter(e=>e.issuerUsername !== this.loggedUser.username);
+          }
+        })
       }
     })
     
- 
   }
 
   appForm = new FormGroup({
@@ -74,6 +92,7 @@ export class CreateCAEEComponent implements OnInit{
     subjectCountry: new FormControl('', [Validators.required]),
     subjectEmail: new FormControl('', [Validators.required]),
     newPKIssuerPassword: new FormControl('', [Validators.required]),
+    newKeyStorePassword: new FormControl('', [Validators.required]),
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
   })
@@ -82,10 +101,33 @@ export class CreateCAEEComponent implements OnInit{
     
     this.arrangeData();
 
+
     if(this.certificateType == 'Intermediary'){
-      this.createIntermediaryCertificate();
-      alert('Successifuly created intermediary sertificate!');
+      this.service.checkForExistence('ICA').subscribe({
+        next:(response)=>{
+          if(response){
+              //imamo ICA
+              this.checkPasswordCorrectionForIntermediary('ICA');
+          }else{
+            this.createIntermediaryCertificate();
+            alert('Successifuly created intermediary sertificate!');
+          }
+        }
+      })
+      
     }else{
+
+      this.service.checkForExistence('EE').subscribe({
+        next:(response)=>{
+          if(response){
+              //imamo EE
+              this.checkPasswordCorrectionForEE('EE');
+          }else{
+            this.createEndEntityCertificate();
+            alert('Successifuly created end entity sertificate!');
+          }
+        }
+      })
       this.createEndEntityCertificate();
       alert('Successifuly created end entity sertificate!');
 
@@ -93,7 +135,34 @@ export class CreateCAEEComponent implements OnInit{
     this.router.navigate(['home']);
   }
 
-
+  checkPasswordCorrectionForIntermediary(type:string){
+      this.service.getKSPassword('ICA').subscribe({
+        next:(response)=>{
+          this.icaKSPassword = response;
+          if(this.icaKSPassword != this.appForm.value.newKeyStorePassword){
+            alert('Password for key store is incorrect!');
+          }else{
+            this.createIntermediaryCertificate();
+            alert('Successifuly created intermediary sertificate!');
+          }
+        }
+      })
+      
+  }
+  checkPasswordCorrectionForEE(type:string){
+    this.service.getKSPassword('EE').subscribe({
+      next:(response)=>{
+        this.icaKSPassword = response;
+        if(this.icaKSPassword != this.appForm.value.newKeyStorePassword){
+          alert('Password for key store is incorrect!');
+        }else{
+          this.createEndEntityCertificate();
+          alert('Successifuly created end entity sertificate!');
+        }
+      }
+    })
+    
+}
   createIntermediaryCertificate(){
     this.service.createCAEESertificate(this.certificate).subscribe({
       next:(response)=>{
@@ -112,6 +181,15 @@ export class CreateCAEEComponent implements OnInit{
       }
     })
   }
+
+  getSubjectDataForValidating(){
+    this.service.getSubjectDataByUsername(this.issuerUsername).subscribe({
+      next:(response)=>{
+        this.subjectData = response;
+        this.validateDates();
+      }
+    })
+  }
   arrangeData(){
     if(this.inWhoseName == 'MyName'){
       console.log("U cije ime radimo: ",this.inWhoseName);
@@ -119,6 +197,7 @@ export class CreateCAEEComponent implements OnInit{
     }else{
       this.certificate.issuerUsername = this.selectedIssuerUsername;
     }
+
     
     if(this.appForm.value.subjectUsername != null)
     this.certificate.subjectUsername = this.appForm.value.subjectUsername;
@@ -138,6 +217,9 @@ export class CreateCAEEComponent implements OnInit{
     if(this.appForm.value.newPKIssuerPassword != null)
     this.certificate.newPKIssuerPassword = this.appForm.value.newPKIssuerPassword;
 
+    if(this.appForm.value.newKeyStorePassword != null)
+    this.certificate.newKeyStorePassword = this.appForm.value.newKeyStorePassword;
+
     if(this.appForm.value.startDate != null){
     this.certificate.startDate=new Date (this.appForm.value.startDate)
     }
@@ -146,14 +228,20 @@ export class CreateCAEEComponent implements OnInit{
     }
   }
   onIssuerChange(event:any): void {
+    this.issuerUsername = event.target.value;
     this.selectedIssuerUsername = event.target.value
     console.log("Novi issuer: ",this.selectedIssuerUsername);
+    this.getSubjectDataForValidating();
   }
 
   onChange(): void {
 
     if(this.appForm.value.inWhoseName )
     this.inWhoseName = this.appForm.value.inWhoseName;
+    if(this.inWhoseName=='MyName'){
+      this.issuerUsername = this.loggedUser.username;
+    }else{
+    }
     console.log(this.inWhoseName);
   }
 
@@ -171,6 +259,36 @@ export class CreateCAEEComponent implements OnInit{
       const minEndDate = new Date(startDate);
       minEndDate.setDate(minEndDate.getDate() + 1); // Postavljamo minimalni End Date na sledeći dan od Start Date-a
       this.minEndDate = minEndDate.toISOString().split('T')[0];
+    } else {
+    }
+  }
+
+  validateDates(){
+    console.log('Start root: ', new Date(this.subjectData.startDate).toLocaleString());
+    console.log('End root: ', new Date(this.subjectData.endDate).toLocaleString());
+
+    const startDateValue = this.subjectData.startDate;
+    const maxStartDateValue = this.subjectData.endDate;
+    const maxEndDateValue = this.subjectData.endDate;
+    if (startDateValue !== null && startDateValue !== undefined) {
+      const startDate = new Date(startDateValue);
+
+      const minStartDate = new Date(startDateValue)
+      const maxStartDate = new Date(maxStartDateValue);
+      const maxEndDate = new Date(maxStartDateValue);
+      const minEndDate = new Date(minStartDate);
+
+      minStartDate.setDate(minStartDate.getDate() + 1); 
+      this.minStartDate = minStartDate.toISOString().split('T')[0];
+
+      maxStartDate.setDate(maxStartDate.getDate() - 2); 
+      this.maxStartDate = maxStartDate.toISOString().split('T')[0];
+
+      minEndDate.setDate(minStartDate.getDate() + 1); 
+      this.minEndDate = minEndDate.toISOString().split('T')[0];
+
+      maxEndDate.setDate(maxStartDate.getDate() + 1); 
+      this.maxEndDate = maxEndDate.toISOString().split('T')[0];
     } else {
     }
   }

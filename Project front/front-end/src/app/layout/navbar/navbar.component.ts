@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit{
       
         if (this.isLogged) {
           this.userRole = this.authService.getUserRole()
+          console.log("USER ROLE : ",this.userRole);
 
         }
       
