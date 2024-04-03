@@ -46,18 +46,22 @@
         <input type="email" class="form-control" id="subjectEmail" name="subjectEmail" formControlName="subjectEmail" >
     </div>
     <div class="form-group">
-        <label for="subjectEmail">PK Issuer password</label>
+        <label for="issuerPassword">PK Issuer password</label>
         <input type="password" class="form-control" id="newPKIssuerPassword" name="subjectEmail" formControlName="newPKIssuerPassword" >
+    </div>
+    <div class="form-group">
+        <label for="newKeyStorePassword">Key store password</label>
+        <input type="password" class="form-control" id="newKeyStorePassword" name="newKeyStorePassword" formControlName="newKeyStorePassword" >
     </div>
    
     <div class="form-group">
         <label for="startDate">Start Date</label>
-        <input type="date" class="form-control" id="startDate" formControlName="startDate" name="startDate" (change)="onChangeStartDate()"  >
+        <input type="date" class="form-control" id="startDate" formControlName="startDate" name="startDate" [min]="minStartDate" [max]="maxStartDate" (change)="onChangeStartDate()"  >
     </div>
     <div class="form-group">
         <label for="endDate">End Date</label>
-        <input type="date" class="form-control" id="endDate" formControlName="endDate" name="endDate" [min]="minEndDate" >
+        <input type="date" class="form-control" id="endDate" formControlName="endDate" name="endDate" [min]="minEndDate" [max]="maxEndDate" >
     </div>
     
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary"  [disabled]="!appForm.valid">Submit</button>
 </form>

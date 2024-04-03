@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { SelfSigned } from '../model/self-signed.model';
 import { CAEE } from '../model/caee.model';
 import { User } from '../model/user.model';
+import { SubjectData } from '../model/subject-data.model';
 
 
 @Injectable({
@@ -65,5 +66,47 @@ export class CertificateServiceService {
       'Content-Type': 'application/json',
     });
     return this.http.get<CertificateDB[]>('http://localhost:8081/api/certificates/getAllCertificates' ,{headers});
+  }
+
+  getSubjectDataByUsername(username:string): Observable<SubjectData> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    console.log("Proslijedjen username: ",username);
+    return this.http.get<SubjectData>('http://localhost:8081/api/certificates/getSubjectDataByUsername/'+ username ,{headers});
+  }
+
+
+  getNumberOfCertificatesByType(type:string): Observable<SubjectData> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    console.log("Proslijedjen type: ",type);
+    return this.http.get<SubjectData>('http://localhost:8081/api/certificates/getNumberOfCertificatesByType/'+ type ,{headers});
+  }
+
+  getKSPassword(type:string): Observable<any> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    console.log("Proslijedjen type: ",type);
+    return this.http.get<any>('http://localhost:8081/api/certificates/getKSPasswordByType/'+ type ,{headers});
+  }
+
+  
+  checkForExistence(type:string): Observable<boolean> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    console.log("Proslijedjen type: ",type);
+    return this.http.get<boolean>('http://localhost:8081/api/certificates/checkExistence/'+ type ,{headers});
   }
 }

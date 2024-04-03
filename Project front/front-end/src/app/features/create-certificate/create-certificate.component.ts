@@ -7,6 +7,7 @@ import { SelfSigned } from 'src/app/model/self-signed.model';
 import { DataSource } from '@angular/cdk/collections';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SubjectData } from 'src/app/model/subject-data.model';
 
 @Component({
   selector: 'app-create-certificate',
@@ -27,45 +28,98 @@ export class CreateCertificateComponent implements OnInit {
   minEndDate: string ='';
   minStartDate: string = '';
   loggedInUsername!: string;
+  subjectData: SubjectData={
+    endDate: new Date(),
+    id: 0,
+    startDate: new Date(),
+    encodedkspassword: '',
+    keyStore: '',
+    serialNumber: '',
+    subjectUsername: ''
+  }
 
+  existance: boolean= false
+  decodedKeyStorePassword: string=''
+  correctKeyStorePassword: string=''
   constructor(private service:CertificateServiceService,private authService: AuthService,private router:Router){}
 
   ngOnInit(): void {
     this.service.getUserById(this.authService.getUserId()).subscribe({
       next:(response)=>{
         this.loggedInUsername = response.username;
+        this.service.checkForExistence('ROOT').subscribe({
+          next:(response)=>{
+            this.existance = response;
+            if(!this.existance){
+              //ako ne postoji nijedan root , kreiramo novi, sifra proizvoljna, to imam
+            }else{
+              this.checkKeyStorePassword() 
+            }
+          }
+        })
       }
-    })  }
+    })  
+  }
 
+  checkKeyStorePassword(){
+    console.log("USAOO")
+      this.service.getKSPassword('ROOT').subscribe({
+        next:(response)=>{
+          console.log('Enkodovana sa beka: '+ response)
+          this.correctKeyStorePassword = response.toString();
+        },error:(err)=>{
+          console.log('greska',err)
+        }
+      })
+      
+  }
   appForm = new FormGroup({
-    password: new FormControl('', [Validators.required]),
-    password2: new FormControl('', [Validators.required]),
+    newKeyStorePassword: new FormControl('', [Validators.required]),
+    newKeyStoreIssuerPassword: new FormControl('', [Validators.required]),
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required]),
   })
   submitForm(){
-
-    this.certificate.username = this.loggedInUsername;
-    if(this.appForm.value.startDate != null){
-    this.certificate.startDate=new Date (this.appForm.value.startDate)
+    if(!this.existance){
+      this.submit();
+    }else{
+      if(this.appForm.value.newKeyStorePassword != this.correctKeyStorePassword){
+        alert('Password for key store is incorrect! Try again.')
+        }
+        else{
+          this.submit();
+        }
     }
-    if(this.appForm.value.endDate != null){
-      this.certificate.endDate=new Date (this.appForm.value.endDate)
+
+   
+  
+    }
+    
+    
+  submit(){
+    if(this.appForm.value.newKeyStorePassword != null)
+    this.certificate.newKeyStorePassword = this.appForm.value.newKeyStorePassword;
+
+      this.certificate.username = this.loggedInUsername;
+      if(this.appForm.value.startDate != null){
+      this.certificate.startDate=new Date (this.appForm.value.startDate)
       }
-      if(this.appForm.value.password != null)
-    this.certificate.newKeyStoreIssuerPassword = this.appForm.value.password;
-    if(this.appForm.value.password2 != null)
-    this.certificate.newKeyStorePassword = this.appForm.value.password2;
-    this.service.createRootSertificate(this.certificate).subscribe({
-      next:(response)=>{
-        this.router.navigate(['home']);
-      },
-      error:(err)=>{
-        console.log('greska',err)
-      }
-    })
+      if(this.appForm.value.endDate != null){
+        this.certificate.endDate=new Date (this.appForm.value.endDate)
+        }
+        if(this.appForm.value.newKeyStoreIssuerPassword != null)
+      this.certificate.newKeyStoreIssuerPassword = this.appForm.value.newKeyStoreIssuerPassword;
+      
+      this.service.createRootSertificate(this.certificate).subscribe({
+        next:(response)=>{
+          this.router.navigate(['home']);
+        },
+        error:(err)=>{
+          console.log('greska',err)
+        }
+      })
   }
- 
+  
   onChangeStartDate(): void {
     const startDateValue = this.appForm.value.startDate;
     if (startDateValue !== null && startDateValue !== undefined) {
@@ -78,4 +132,6 @@ export class CreateCertificateComponent implements OnInit {
         // Handle the case where startDate is null or undefined
     }
   }
+
+  
 }

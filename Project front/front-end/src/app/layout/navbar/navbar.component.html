@@ -21,22 +21,22 @@
       </a>
       <a
         raised-button
-        *ngIf="isLogged "
+        *ngIf="isLogged  "
         routerLinkActive="active"
         [routerLink]="['createCertificate']"
         class="link"
       >
-      Create Certificate
+      Create Root Certificate
       </a>
 
       <a
         raised-button
-        *ngIf="isLogged "
+        *ngIf="isLogged" 
         routerLinkActive="active"
-        [routerLink]="['createCAEE']"
+        [routerLink]="['createCAEE'] "
         class="link"
       >
-      Create CAEE
+      Create CA or EE Certificate
       </a>
 
       <a
@@ -46,7 +46,7 @@
         [routerLink]="['createCAEEbyCA']"
         class="link"
       >
-      Create CAEE
+      Create CA or EE Certificate
       </a>
       <button
         *ngIf="isLogged && userRole != 'ROLE_REGISTERED_USER'"
