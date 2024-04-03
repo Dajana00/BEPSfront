@@ -4,5 +4,9 @@ export interface SubjectDto{
     serialNumber:String;
     startDate: Date;
     endDate:Date;
-    pem:String
+    pem:String,
+     issuerUsername:String;
+     organization:String;
+     organizationUnit:String;
+     country:String;
 }

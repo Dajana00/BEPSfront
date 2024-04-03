@@ -3,4 +3,5 @@ export interface CertificateDB {
     issuerUsername:string;
     subjectUsername:string;
     type:string;
+ 
 }

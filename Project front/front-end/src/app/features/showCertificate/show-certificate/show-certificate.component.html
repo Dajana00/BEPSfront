@@ -10,13 +10,17 @@
   <!-- Name Column -->
   <ng-container matColumnDef="ValidFrom">
     <th mat-header-cell *matHeaderCellDef>ValidFrom</th>
-    <td mat-cell *matCellDef="let element">{{element.startDate}}</td>
+    <td mat-cell *matCellDef="let element">{{element.startDate  | date: 'dd.MM.yyyy' }}</td>
   </ng-container>
 
   <!-- Weight Column -->
   <ng-container matColumnDef="ValidTo">
     <th mat-header-cell *matHeaderCellDef>ValidTo</th>
-    <td mat-cell *matCellDef="let element">{{element.endDate}}</td>
+    <td mat-cell *matCellDef="let element">{{element.endDate  | date: 'dd.MM.yyyy' }}</td>
+  </ng-container>
+  <ng-container matColumnDef="SubjectUsername">
+    <th mat-header-cell *matHeaderCellDef>Subject</th>
+    <td mat-cell *matCellDef="let element">{{element.subjectUsername }}</td>
   </ng-container>
 
   <!-- Symbol Column -->
