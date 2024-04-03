@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
-import { User } from 'src/app/model/user.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +36,7 @@ export class AuthService {
           this.userClaims = this.jwtHelper.decodeToken();
           console.log('userclaims',this.userClaims)
           this.getUserId()
+          this.getUsername()
           this.access_token = res.token;
           this.loginSource.next(true);
           return true;

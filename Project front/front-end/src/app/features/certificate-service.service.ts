@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { SelfSigned } from '../model/self-signed.model';
 import { CAEE } from '../model/caee.model';
 import { User } from '../model/user.model';
+import { SubjectDto } from '../model/subject-dto.model';
 
 
 @Injectable({
@@ -65,5 +66,30 @@ export class CertificateServiceService {
       'Content-Type': 'application/json',
     });
     return this.http.get<CertificateDB[]>('http://localhost:8081/api/certificates/getAllCertificates' ,{headers});
+  }
+  getAllCertificatesByAdmin(username:String): Observable<SubjectDto[]> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    return this.http.get<SubjectDto[]>('http://localhost:8081/api/certificates/getForAdmin' + '/'+ username,{headers});
+  }
+  getAllCertificatesByICA(username:String): Observable<SubjectDto[]> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    return this.http.get<SubjectDto[]>('http://localhost:8081/api/certificates/getForICA' + '/'+ username,{headers});
+  }
+
+  getAllCertificatesByEE(username:String): Observable<SubjectDto> {
+    const token = this.jwtHelper.tokenGetter();
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    });
+    return this.http.get<SubjectDto>('http://localhost:8081/api/certificates/getForEE' + '/'+ username,{headers});
   }
 }

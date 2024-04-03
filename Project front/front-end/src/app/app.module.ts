@@ -14,7 +14,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptor } from './infrastructure/interceptor/TokenInterceptor';
 import { DateAdapter } from '@angular/material/core';
-import { HomeComponent } from './features/home/home.component';
+
 import {  CreateCertificateComponent } from './features/create-certificate/create-certificate.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -31,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CertificateDetailsComponent } from './features/showCertificate/certificate-details/certificate-details.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { HomeComponent } from './layout/home/home.component';
 
 
 
@@ -39,7 +40,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    HomeComponent,
+   HomeComponent,
     CreateCertificateComponent,
     CreateCAEEComponent,
     CreateByCaComponent,
