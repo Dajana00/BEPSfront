@@ -100,13 +100,13 @@ export class CertificateServiceService {
     return this.http.get<SubjectDto[]>('http://localhost:8081/api/certificates/getForICA' + '/'+ username,{headers});
   }
 
-  getAllCertificatesByEE(username:String): Observable<SubjectDto> {
+  getAllCertificatesByEE(username:String): Observable<SubjectDto[]> {
     const token = this.jwtHelper.tokenGetter();
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json',
     });
-    return this.http.get<SubjectDto>('http://localhost:8081/api/certificates/getForEE' + '/'+ username,{headers});
+    return this.http.get<SubjectDto[]>('http://localhost:8081/api/certificates/getForEE' + '/'+ username,{headers});
   }
   
   

@@ -12,7 +12,7 @@ import { zip } from 'rxjs';
   styleUrls: ['./show-certificate.component.css']
 })
 export class ShowCertificateComponent {
-  displayedColumns: string[] = ['SerialNumber', 'ValidFrom', 'ValidTo', 'symbol'];
+  displayedColumns: string[] = ['SerialNumber', 'ValidFrom', 'ValidTo',"SubjectUsername" ,'symbol'];
   subjects: SubjectDto[]=[]
   loggedInUsername: String
   loggedInRole: String
@@ -77,9 +77,11 @@ export class ShowCertificateComponent {
     this.loggedInUsername=this.authService.getUsername()
     console.log('USERNAME',this.loggedInUsername)
     this.service.getAllCertificatesByEE(this.loggedInUsername).subscribe({
-      next:(res:SubjectDto)=>{
+      next:(res:SubjectDto[])=>{
         console.log('uspjeo',res)
-        this.subjects.push(res);
+        this.subjects.length=0
+        this.subjects=res;
+        console.log('subjects',this.subjects)
       },
       error:(err:String)=>{
         console.log('greska',err)

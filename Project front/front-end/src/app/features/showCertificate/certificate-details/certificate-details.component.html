@@ -3,10 +3,12 @@
       <!-- Sadržaj za tab "General" -->
       <h3>General Info</h3>
       <!-- Dodajte ostali sadržaj za tab "General" -->
-      <h3>Issued To: </h3>
-      <h3>Issued By: </h3>
-      <h3>Validity Period: </h3>
-      <h3>Sha-256 Fingerprints: </h3>
+      <h3>Issued To: {{subjectDto.subjectUsername}} </h3>
+      <h3>Issued By: {{subjectDto.issuerUsername}}</h3>
+      <h3>Validity Period:{{subjectDto.startDate | date: 'dd.MM.yyyy'}} - {{subjectDto.endDate | date: 'dd.MM.yyyy'}} </h3>
+      <h3>Organization : {{subjectDto.organization}}</h3>
+      <h3>OrganizationUnit:{{subjectDto.organizationUnit}} </h3>
+      <h3>Country: {{subjectDto.country}}</h3>
     </mat-tab>
     <mat-tab label="Pem Details">
       <!-- Sadržaj za tab "Pem Details" -->

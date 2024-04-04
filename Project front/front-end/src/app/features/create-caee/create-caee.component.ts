@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CAEE } from 'src/app/model/caee.model';
+
 import { CertificateServiceService } from '../certificate-service.service';
-import { IssuerData } from 'src/app/model/issuer-data.model';
-import { AuthService } from 'src/app/infrastructure/authentication/auth.service';
-import { User } from 'src/app/model/user.model';
-import {  CertificateDB } from 'src/app/model/certificate.model';
+
 import { Router } from '@angular/router';
-import { SubjectData } from 'src/app/model/subject-data.model';
+
 import { max } from 'rxjs';
+import { CAEE } from '../../model/caee.model';
+import { User } from '../../model/user.model';
+import { CertificateDB } from '../../model/certificate.model';
+import { SubjectData } from '../../model/subject-data.model';
+import { AuthService } from '../../infrastructure/authentication/auth.service';
 
 @Component({
   selector: 'app-create-caee',
@@ -128,9 +130,7 @@ export class CreateCAEEComponent implements OnInit{
           }
         }
       })
-      this.createEndEntityCertificate();
-      alert('Successifuly created end entity sertificate!');
-
+      
     }
     this.router.navigate(['home']);
   }
